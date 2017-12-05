@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  const movies = [];
+  let movies = [];
 
   const renderMovies = function() {
     $('#listings').empty();
@@ -10,23 +10,25 @@
       const $col = $('<div>').addClass('col s6');
       const $card = $('<div>').addClass('card hoverable');
       const $content = $('<div>').addClass('card-content center');
-      const $title = $('<h6>').addClass('card-title truncate');
+      const $Title = $('<h6>').addClass('card-Title truncate');
 
-      $title.attr({
+      $Title.attr({
         'data-position': 'top',
-        'data-tooltip': movie.title
+        'data-tooltip': movie.Title
       });
 
-      $title.tooltip({ delay: 50 }).text(movie.title);
+      $Title.tooltip({
+        delay: 50
+      }).text(movie.Title);
 
-      const $poster = $('<img>').addClass('poster');
+      const $Poster = $('<img>').addClass('Poster');
 
-      $poster.attr({
-        src: movie.poster,
-        alt: `${movie.poster} Poster`
+      $Poster.attr({
+        src: movie.Poster,
+        alt: `${movie.Poster} Poster`
       });
 
-      $content.append($title, $poster);
+      $content.append($Title, $Poster);
       $card.append($content);
 
       const $action = $('<div>').addClass('card-action center');
@@ -41,7 +43,7 @@
 
       const $modal = $('<div>').addClass('modal').attr('id', movie.id);
       const $modalContent = $('<div>').addClass('modal-content');
-      const $modalHeader = $('<h4>').text(movie.title);
+      const $modalHeader = $('<h4>').text(movie.Title);
       const $movieYear = $('<h6>').text(`Released in ${movie.year}`);
       const $modalText = $('<p>').text(movie.plot);
 
@@ -57,4 +59,15 @@
   };
 
   // ADD YOUR CODE HERE
+  let btn = $('button')
+  btn.click(function(e) {
+    e.preventDefault()
+    $.get("http://www.omdbapi.com/?apikey=702b3bb5&t=" + $('#search').val(), function(data) {
+      movies = []
+      movies.push(data)
+      renderMovies()
+      console.log(data.Plot)
+    })
+  })
+
 })();
